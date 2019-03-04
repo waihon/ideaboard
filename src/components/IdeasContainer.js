@@ -7,7 +7,8 @@ class IdeasContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ideas: []
+      ideas: [],
+      editingIdeaId: null // keep track of which idea is being edited
     }
   }
 
@@ -33,9 +34,13 @@ class IdeasContainer extends Component {
       .then(response => {
         console.log(response);
         const ideas = update(this.state.ideas, {
+          // Insert the new idea (in response.data) at the 0th index of the ideas array
           $splice: [[0, 0, response.data]]
         });
-        this.setState({ ideas: ideas });
+        this.setState({
+          ideas: ideas,
+          editingIdeaId: response.data.id // edit the idea immediately
+        });
       })
       .catch(error => console.log(error))
   }
