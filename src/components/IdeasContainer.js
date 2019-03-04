@@ -9,7 +9,8 @@ class IdeasContainer extends Component {
     super(props);
     this.state = {
       ideas: [],
-      editingIdeaId: null // keep track of which idea is being edited
+      editingIdeaId: null, // keep track of which idea is being edited
+      notification: ''
     }
   }
 
@@ -52,7 +53,14 @@ class IdeasContainer extends Component {
       // Replace the old idea with the new one
       [ideaIndex]: { $set: idea }
     });
-    this.setState({ ideas: ideas });
+    this.setState({
+      ideas: ideas,
+      notification: 'Changes saved'
+    });
+  }
+
+  resetNotification = () => {
+    this.setState({ notification: '' });
   }
 
   render() {
@@ -62,10 +70,15 @@ class IdeasContainer extends Component {
           <button className="newIdeaButton" onClick={this.addNewIdea} >
             New Idea
           </button>
+          <span className="notification">
+            {this.state.notification}
+          </span>
         </div>
         {this.state.ideas.map((idea) => {
           if (this.state.editingIdeaId === idea.id) {
-            return(<IdeaForm idea={idea} key={idea.id} updateIdea={this.updateIdea} />);
+            return(<IdeaForm idea={idea} key={idea.id}
+              updateIdea={this.updateIdea}
+              resetNotification={this.resetNotification} />);
           } else {
             return(<Idea idea={idea} key={idea.id} />);
           }
