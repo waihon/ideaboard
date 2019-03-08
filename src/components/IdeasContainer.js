@@ -63,6 +63,14 @@ class IdeasContainer extends Component {
     this.setState({ notification: '' });
   }
 
+  enableEditing = (id) => {
+    this.setState({ editingIdeaId: id },
+      // setState doesn't always immediately update the component.
+      // By passing our focus call in a callback, we make sure it gets
+      // called only after the component has been updated.
+      () => { this.title.focus() });
+  }
+
   render() {
     return (
       <div>
@@ -78,9 +86,10 @@ class IdeasContainer extends Component {
           if (this.state.editingIdeaId === idea.id) {
             return(<IdeaForm idea={idea} key={idea.id}
               updateIdea={this.updateIdea}
-              resetNotification={this.resetNotification} />);
+              resetNotification={this.resetNotification}
+              titleRef={input => this.title = input} />);
           } else {
-            return(<Idea idea={idea} key={idea.id} />);
+            return(<Idea idea={idea} key={idea.id} onClick={this.enableEditing} />);
           }
         })}
       </div>
