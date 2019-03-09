@@ -3,6 +3,7 @@ import axios from 'axios';
 import Idea from './Idea';
 import update from 'immutability-helper';
 import IdeaForm from './IdeaForm';
+import Notification from './Notification';
 
 class IdeasContainer extends Component {
   constructor(props) {
@@ -90,9 +91,7 @@ class IdeasContainer extends Component {
           <button className="newIdeaButton" onClick={this.addNewIdea} >
             New Idea
           </button>
-          <span className="notification">
-            {this.state.notification}
-          </span>
+          <Notification notification={this.state.notification} />
         </div>
         {this.state.ideas.map((idea) => {
           if (this.state.editingIdeaId === idea.id) {
