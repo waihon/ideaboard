@@ -11,7 +11,8 @@ class IdeasContainer extends Component {
     this.state = {
       ideas: [],
       editingIdeaId: null, // keep track of which idea is being edited
-      notification: ''
+      notification: '',
+      transitionIn: false
     }
   }
 
@@ -56,12 +57,13 @@ class IdeasContainer extends Component {
     });
     this.setState({
       ideas: ideas,
-      notification: 'Changes saved'
+      notification: 'Changes saved',
+      transitionIn: true
     });
   }
 
   resetNotification = () => {
-    this.setState({ notification: '' });
+    this.setState({ notification: '', transitionIn: false });
   }
 
   enableEditing = (id) => {
@@ -91,7 +93,7 @@ class IdeasContainer extends Component {
           <button className="newIdeaButton" onClick={this.addNewIdea} >
             New Idea
           </button>
-          <Notification notification={this.state.notification} />
+          <Notification in={this.state.transitionIn} notification={this.state.notification} />
         </div>
         {this.state.ideas.map((idea) => {
           if (this.state.editingIdeaId === idea.id) {
